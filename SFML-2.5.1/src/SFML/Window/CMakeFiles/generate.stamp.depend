@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindOpenGL.cmake
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindPackageHandleStandardArgs.cmake
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindPackageMessage.cmake
+D:/Software/QT/SFML-2.5.1/src/SFML/Window/CMakeLists.txt

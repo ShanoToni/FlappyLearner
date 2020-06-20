@@ -1,0 +1,7 @@
+# CMake generation dependency list for this directory.
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindOpenAL.cmake
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindPackageHandleStandardArgs.cmake
+D:/Programs/Cmake/share/cmake-3.18/Modules/FindPackageMessage.cmake
+D:/Software/QT/SFML-2.5.1/cmake/Modules/FindFLAC.cmake
+D:/Software/QT/SFML-2.5.1/cmake/Modules/FindVorbis.cmake
+D:/Software/QT/SFML-2.5.1/src/SFML/Audio/CMakeLists.txt

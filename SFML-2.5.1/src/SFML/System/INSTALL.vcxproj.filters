@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Software\QT\SFML-2.5.1\CMakeFiles\7b891d99f38471e998ba7f80c1d875fa\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{0F35FFCF-2AEC-32CA-9875-1042EBB417C2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
