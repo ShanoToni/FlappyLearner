@@ -31,29 +31,7 @@ void Pipe::UpdatePipe(float DeltaTime,float Speed)
 	}
 }
 
-void Pipe::CollideWithBird(Bird& bird)
-{
-	float pipeTopY = PipeTop.getPosition().y + PipeTop.getSize().y;
-	float pipeTopX = PipeTop.getPosition().x ;
-	float pipeTopXMax = PipeTop.getPosition().x + PipeTop.getSize().x;
 
-	float PipeBottomY = PipeBottom.getPosition().y;
-
-	float birdPosX = bird.GetBirdShape().getPosition().x;
-	float birdPosY = bird.GetBirdShape().getPosition().y;
-
-	//if the bird and pipe have a similar X
-	if (pipeTopX <= birdPosX + 50 && pipeTopXMax >= birdPosX )
-	{
-		
-		if (pipeTopY >= birdPosY || PipeBottomY <= birdPosY+50)
-		{
-			std::cout << "HIT!" << std::endl;
-		}
-	}
-	
-
-}
 
 Pipe::~Pipe()
 {

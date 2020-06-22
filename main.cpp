@@ -14,7 +14,7 @@ int main()
     PipeController Controller = PipeController(width, height, 2.f);
 
     sf::Clock clock;
-    const double dt = 0.005f;
+    const double dt = 0.0005f;
     double accumulator = 0.0f;
 
     double currentTime = static_cast<double>(clock.getElapsedTime().asSeconds());
@@ -37,29 +37,35 @@ int main()
 
         double newTime = clock.getElapsedTime().asSeconds();
         double frameTime = newTime - currentTime;
+
         //speed control
-        frameTime *= 1.0;
+        frameTime *= 0.3;
         currentTime = newTime;
         accumulator += frameTime;
+
         //Update Game
         while (accumulator >= dt)
         {
-            a.ConstrainBird(height);
             //movement updates and all 
+            a.ConstrainBird(height);
             a.UpdateBird(dt);
-
             Controller.Update(dt);
 
             accumulator -= dt;
         }
+        Pipe closest = Controller.getClosestPipe(a);
+        a.Think(closest, width, height);
         Controller.CollideWithBird(a);
+
         window.clear();
         window.draw(a.GetBirdShape());
+
         for (auto& p : Controller.GetPipes())
         {
             window.draw(p->GetPipeTop());
             window.draw(p->GetPipeBottom());
         }
+
         window.display();
     }
 

@@ -31,7 +31,8 @@ public:
 	void AddPipe();
 	void RemovePipe();
 	void Update(float DeltaTime);
-	void CollideWithBird(Bird& bird);
+	void CollideWithBird(Bird& b);
+	Pipe getClosestPipe(Bird& bird);
 
 	~PipeController();
 };

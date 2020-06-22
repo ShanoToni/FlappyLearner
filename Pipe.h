@@ -1,6 +1,6 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-#include "Bird.h"
+
 class Pipe
 {
 public:
@@ -21,6 +21,7 @@ public:
 	//get and sets
 	inline sf::RectangleShape GetPipeTop() { return PipeTop; }
 	inline sf::RectangleShape GetPipeBottom() { return PipeBottom; }
+	inline float GetWidth() { return Width; }
 
 	inline void SetPipeTop(sf::RectangleShape pipe) { PipeTop = pipe; }
 	inline void SetPipeBottom(sf::RectangleShape pipe) { PipeBottom = pipe; }
@@ -28,7 +29,6 @@ public:
 	inline bool GetShouldDelete() { return ShouldDelete; }
 
 	void UpdatePipe(float DeltaTime, float Speed);
-	void CollideWithBird(Bird& bird);
 
 	~Pipe();
 };

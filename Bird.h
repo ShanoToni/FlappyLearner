@@ -1,5 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "NeuralNetwork.h"
+#include "Pipe.h"
+#include <memory>
 
 class Bird
 {
@@ -18,6 +21,8 @@ private:
 	sf::Vector2f Position;
 	float Lift;
 	sf::CircleShape BirdShape;
+	std::unique_ptr<NeuralNetwork> brain;
+	bool canJump;
 
 	//GETTERS AND SETTERS
 public:
@@ -36,6 +41,7 @@ public:
 	//FUNCTIONS
 	void UpdateBird(double DeltaTime);
 	void ConstrainBird(float screenHeight);
+	void Think(Pipe &p, float screenW, float screenH);
 	void Jump();
 
 public:
