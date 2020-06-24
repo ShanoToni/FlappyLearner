@@ -69,7 +69,7 @@ void PipeController::CollideWithBird(Bird& b)
 
 				if (pipeTopY >= birdPosY || PipeBottomY <= birdPosY + 50)
 				{
-					std::cout << "HIT!" << std::endl;
+					//std::cout << "HIT!" << std::endl;
 				}
 			}
 		}

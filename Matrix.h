@@ -13,7 +13,7 @@ private:
 	int Rows;
 	int Cols;
 	std::vector<std::vector<float>> Data;
-	std::default_random_engine generator;
+	//std::knuth_b generator;
 	std::uniform_real_distribution<float> distribution;
 
 public:

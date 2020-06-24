@@ -84,7 +84,7 @@ std::vector<float> NeuralNetwork::feedForward(std::vector<float> inputs)
 
 	
 	float temp = output.toVector()[0];
-	std::cout << temp << std::endl;
+	//std::cout << temp << std::endl;
 	return output.toVector();
 }
 

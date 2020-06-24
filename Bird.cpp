@@ -13,31 +13,50 @@ Bird::Bird(sf::Vector2<float> position) : Position(position), Acceleration(sf::V
 	Lift = 0;
 	brain = std::unique_ptr<NeuralNetwork>(new NeuralNetwork(5, 8, 1));
 	canJump = true;
+	std::vector<float> brainDNA = brain->getWeightsAsDNA();
+	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
+	fitness = 0.f;
+	fitnessNormalized = 0.f;
+	Alive = true;
 }
 
 Bird::Bird(Bird& other)
 {
-	//copy constructor if mem needs alocating
-	//this.var = new var(*other.var);
+	Position = other.GetPostion();
+	Acceleration = other.GetAcceleration();
+	Velocity = other.GetVelocity();
+	BirdShape = sf::CircleShape(25.f);
+	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
+	Lift = 0;
+	brain = std::move(other.brain);
+	canJump = true;
+	std::vector<float> brainDNA = brain->getWeightsAsDNA();
+	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
+	fitness = 0.f;
+	fitnessNormalized = 0.f;
+	Alive = true;
 }
 
 Bird::Bird(Bird&& other)
 {
-	//move mem constructor
+	Position = other.GetPostion();
+	Acceleration = other.GetAcceleration();
+	Velocity = other.GetVelocity();
+	BirdShape = sf::CircleShape(25.f);
+	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
+	Lift = 0;
+	brain = std::move(other.brain);
+	canJump = true;
+	std::vector<float> brainDNA = brain->getWeightsAsDNA();
+	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
+	fitness = 0.f;
+	fitnessNormalized = 0.f;
+	Alive = true;
+	// TODO: mem constructor
 	//this.var = other.var;
 	//other.var = nullptr;
 }
 
-Bird& Bird::operator=(const Bird& other)
-{
-	// TODO: move semantics if mem is allocated
-	if (this != &other)
-	{
-		//delete this->var;
-		//this->var = new var(*other.var);
-	}
-	return *this;
-}
 
 void Bird::UpdateBird(double DeltaTime)
 {
@@ -62,12 +81,14 @@ void Bird::ConstrainBird( float screenHeight)
 		Acceleration = sf::Vector2f(0,0);
 		Velocity = sf::Vector2f(0, 0);
 		canJump = true;
+		Alive = false;
 		return;
 	}
 	else if (BirdShape.getPosition().y < 0.f)
 	{
 		Velocity = sf::Vector2f(0, 0);
 		canJump = false;
+		Alive = false;
 		return;
 	}
 	canJump = true;
@@ -97,12 +118,15 @@ void Bird::Jump()
 	}
 }
 
+void Bird::CalculateFitnessNormalized(float maxFitness)
+{
+	fitnessNormalized = fitness / maxFitness;
+}
+
 
 
 Bird::~Bird()
 {
-	//copy constructor if mem needs transfered
-	//this.var = new var(*other.var);
-	//other.var = nullptr;
+	
 	brain = nullptr;
 }

@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include <iostream>
+#include <chrono>
 
 Matrix::Matrix():Matrix(3,3)
 {
@@ -59,6 +60,8 @@ std::vector<float> Matrix::toVector()
 
 void Matrix::randomize()
 {
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine generator(seed);
 	for (int i = 0; i < Rows; i++)
 	{
 		for (int j = 0; j < Cols; j++)

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Bird.h"
 #include "PipeController.h"
+#include "BirdPopulation.h"
 
 const int width = 1280;
 const int height = 720;
@@ -10,7 +11,9 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML Flapper");
 
-    Bird a = Bird(sf::Vector2f(200, (height / 2)));
+    //Bird a = Bird(sf::Vector2f(200, (height / 2)));
+    BirdPopulation pop = BirdPopulation(50);
+
     PipeController Controller = PipeController(width, height, 2.f);
 
     sf::Clock clock;
@@ -28,10 +31,14 @@ int main()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::Space)
+                for (auto b : pop.GetBirdPop())
+                {
+                    b->Jump();
+                }
+                /*if (event.key.code == sf::Keyboard::Space)
                 {
                     a.Jump();
-                }
+                }*/
             }
         }
 
@@ -39,7 +46,7 @@ int main()
         double frameTime = newTime - currentTime;
 
         //speed control
-        frameTime *= 0.3;
+        frameTime *= 1.0;
         currentTime = newTime;
         accumulator += frameTime;
 
@@ -47,19 +54,24 @@ int main()
         while (accumulator >= dt)
         {
             //movement updates and all 
-            a.ConstrainBird(height);
-            a.UpdateBird(dt);
+            pop.ConstrainBirds(height);
+            pop.UpdateBirds(dt);
             Controller.Update(dt);
 
             accumulator -= dt;
         }
-        Pipe closest = Controller.getClosestPipe(a);
-        a.Think(closest, width, height);
-        Controller.CollideWithBird(a);
+        Pipe closest = Controller.getClosestPipe(*pop.GetBirdPop().front());
+        pop.Think(closest, width, height);
+        for (auto b : pop.GetBirdPop())
+        {
+            Controller.CollideWithBird(*b);
+        }
 
         window.clear();
-        window.draw(a.GetBirdShape());
-
+        for (auto b : pop.GetBirdPop())
+        {
+            window.draw(b->GetBirdShape());
+        }
         for (auto& p : Controller.GetPipes())
         {
             window.draw(p->GetPipeTop());
