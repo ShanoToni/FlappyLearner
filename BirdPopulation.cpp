@@ -67,17 +67,20 @@ void BirdPopulation::UpdateBirds(double DeltaTime)
 
 void BirdPopulation::RemoveDeadBirds()
 {
-	auto i = CurrentBirdPop.begin();
-	while (i != CurrentBirdPop.end())
+	if (CurrentBirdPop.size() > 0)
 	{
-		if (!(*i)->getAlive())
+		auto i = CurrentBirdPop.begin();
+		while (i != CurrentBirdPop.end())
 		{
-			SavedBirdPop.push_back(*i);
-			CurrentBirdPop.erase(i++);
-		}
-		else
-		{
-			++i;
+			if (!(*i)->getAlive())
+			{
+				SavedBirdPop.push_back(*i);
+				CurrentBirdPop.erase(i++);
+			}
+			else
+			{
+				++i;
+			}
 		}
 	}
 }

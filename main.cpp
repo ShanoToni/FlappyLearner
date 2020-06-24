@@ -17,7 +17,7 @@ int main()
     PipeController Controller = PipeController(width, height, 2.f);
 
     sf::Clock clock;
-    const double dt = 0.0005f;
+    const double dt = 0.005f;
     double accumulator = 0.0f;
 
     double currentTime = static_cast<double>(clock.getElapsedTime().asSeconds());
@@ -60,17 +60,29 @@ int main()
 
             accumulator -= dt;
         }
-        Pipe closest = Controller.getClosestPipe(*pop.GetBirdPop().front());
-        pop.Think(closest, width, height);
-        for (auto b : pop.GetBirdPop())
+        pop.RemoveDeadBirds();
+        if (pop.GetBirdPop().size() == 0)
         {
-            Controller.CollideWithBird(*b);
+
+        }
+        if (pop.GetBirdPop().size() > 0)
+        {
+            Pipe closest = Controller.getClosestPipe(*pop.GetBirdPop().front());
+            pop.Think(closest, width, height);
+            for (auto b : pop.GetBirdPop())
+            {
+                Controller.CollideWithBird(*b);
+            }
         }
 
         window.clear();
         for (auto b : pop.GetBirdPop())
         {
-            window.draw(b->GetBirdShape());
+            if (pop.GetBirdPop().size() > 0)
+            {
+                b->setFitnes(b->getFitnes() + 1);
+                window.draw(b->GetBirdShape());
+            }
         }
         for (auto& p : Controller.GetPipes())
         {
@@ -79,6 +91,8 @@ int main()
         }
 
         window.display();
+
+     
     }
 
     return 0;
