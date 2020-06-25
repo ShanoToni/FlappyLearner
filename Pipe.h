@@ -28,7 +28,7 @@ public:
 
 	inline bool GetShouldDelete() { return ShouldDelete; }
 
-	void UpdatePipe(float DeltaTime, float Speed);
+	void UpdatePipe(float Speed);
 
 	~Pipe();
 };

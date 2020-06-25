@@ -21,10 +21,11 @@ public:
 	inline std::list<std::shared_ptr<Bird>>& GetBirdPop() { return CurrentBirdPop; }
 	void TrainGeneration();
 	void addToSavedBirds(std::shared_ptr<Bird> DeadBird);
-	void UpdateBirds(double DeltaTime);
+	void UpdateBirds();
 	void RemoveDeadBirds();
 	void ConstrainBirds(float screenHeight);
 	void Think(Pipe& p, float screenW, float screenH);
+	void CreateNewGeneration();
 
 
 	~BirdPopulation();

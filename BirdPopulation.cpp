@@ -43,24 +43,13 @@ void BirdPopulation::addToSavedBirds(std::shared_ptr<Bird> DeadBird)
 
 }
 
-void BirdPopulation::UpdateBirds(double DeltaTime)
+void BirdPopulation::UpdateBirds()
 {
 	if (CurrentBirdPop.size() > 0)
 	{
 		for (auto & b : CurrentBirdPop)
 		{
-			b->Velocity.x = b->Velocity.x + b->Acceleration.x * DeltaTime;
-			b->Velocity.y = b->Velocity.y + b->Acceleration.y * DeltaTime;
-			b->Velocity.y = b->Velocity.y + b->Lift;
-			b->Velocity = b->Velocity * 0.99999f;
-
-			b->Position.x = b->Position.x + b->Velocity.x * DeltaTime;
-			b->Position.y = b->Position.y + b->Velocity.y * DeltaTime;
-
-			b->BirdShape.setPosition(b->Position);
-
-			b->Acceleration = sf::Vector2f(0.0f, 600.f);
-			b->Lift = 0.f;
+			b->UpdateBird();
 		}
 	}
 }

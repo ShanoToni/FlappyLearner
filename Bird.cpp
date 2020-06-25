@@ -20,57 +20,30 @@ Bird::Bird(sf::Vector2<float> position) : Position(position), Acceleration(sf::V
 	Alive = true;
 }
 
-Bird::Bird(Bird& other)
+Bird::Bird(Bird& other):Bird(other.GetPostion())
 {
-	Position = other.GetPostion();
-	Acceleration = other.GetAcceleration();
-	Velocity = other.GetVelocity();
-	BirdShape = sf::CircleShape(25.f);
-	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
-	Lift = 0;
-	brain = std::move(other.brain);
-	canJump = true;
-	std::vector<float> brainDNA = brain->getWeightsAsDNA();
-	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
-	fitness = 0.f;
-	fitnessNormalized = 0.f;
-	Alive = true;
+	
 }
 
-Bird::Bird(Bird&& other)
+Bird::Bird(Bird&& other):Bird(other.GetPostion())
 {
-	Position = other.GetPostion();
-	Acceleration = other.GetAcceleration();
-	Velocity = other.GetVelocity();
-	BirdShape = sf::CircleShape(25.f);
-	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
-	Lift = 0;
-	brain = std::move(other.brain);
-	canJump = true;
-	std::vector<float> brainDNA = brain->getWeightsAsDNA();
-	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
-	fitness = 0.f;
-	fitnessNormalized = 0.f;
-	Alive = true;
-	// TODO: mem constructor
-	//this.var = other.var;
-	//other.var = nullptr;
+	
 }
 
 
-void Bird::UpdateBird(double DeltaTime)
+void Bird::UpdateBird()
 {
-	Velocity.x = Velocity.x + Acceleration.x * DeltaTime;
-	Velocity.y = Velocity.y + Acceleration.y * DeltaTime;
+	Velocity.x = Velocity.x + Acceleration.x;
+	Velocity.y = Velocity.y + Acceleration.y;
 	Velocity.y = Velocity.y + Lift;
 	Velocity = Velocity * 0.99999f;
 
-	Position.x = Position.x + Velocity.x * DeltaTime;
-	Position.y = Position.y + Velocity.y * DeltaTime;
+	Position.x = Position.x + Velocity.x;
+	Position.y = Position.y + Velocity.y;
 
 	BirdShape.setPosition(Position);
 
-	Acceleration = sf::Vector2f(0.0f,600.f);
+	Acceleration = sf::Vector2f(0.0f, 0.009f);
 	Lift = 0.f;
 }
 
@@ -114,7 +87,7 @@ void Bird::Jump()
 {
 	if (canJump)
 	{
-		Lift = -500;
+		Lift = -2.3f;
 	}
 }
 

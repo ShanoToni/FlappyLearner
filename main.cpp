@@ -11,16 +11,12 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML Flapper");
 
-    //Bird a = Bird(sf::Vector2f(200, (height / 2)));
-    BirdPopulation pop = BirdPopulation(50);
+    Bird a = Bird(sf::Vector2f(200, (height / 2)));
+    BirdPopulation pop = BirdPopulation(350);
 
     PipeController Controller = PipeController(width, height, 2.f);
-
-    sf::Clock clock;
-    const double dt = 0.005f;
-    double accumulator = 0.0f;
-
-    double currentTime = static_cast<double>(clock.getElapsedTime().asSeconds());
+    
+ 
     while (window.isOpen())
     {
         //handle events
@@ -31,59 +27,46 @@ int main()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
             {
-                for (auto b : pop.GetBirdPop())
+      /*          for (auto b : pop.GetBirdPop())
                 {
                     b->Jump();
-                }
-                /*if (event.key.code == sf::Keyboard::Space)
+                }*/
+                if (event.key.code == sf::Keyboard::Space)
                 {
                     a.Jump();
-                }*/
+                }
             }
         }
 
-        double newTime = clock.getElapsedTime().asSeconds();
-        double frameTime = newTime - currentTime;
-
-        //speed control
-        frameTime *= 1.0;
-        currentTime = newTime;
-        accumulator += frameTime;
-
+        pop.ConstrainBirds(height);
+        pop.UpdateBirds();
         //Update Game
-        while (accumulator >= dt)
-        {
-            //movement updates and all 
-            pop.ConstrainBirds(height);
-            pop.UpdateBirds(dt);
-            Controller.Update(dt);
+        a.ConstrainBird(height);
+        a.UpdateBird();
+        Controller.Update();
 
-            accumulator -= dt;
+        
+        //pop.RemoveDeadBirds();
+        
+    
+        Pipe closest = Controller.getClosestPipe(a);
+        pop.Think(closest, width, height);
+        
+        Controller.CollideWithBird(a);
+        for (auto& b : pop.GetBirdPop())
+        {
+            Controller.CollideWithBird(*b);
         }
+        
         pop.RemoveDeadBirds();
-        if (pop.GetBirdPop().size() == 0)
-        {
-
-        }
-        if (pop.GetBirdPop().size() > 0)
-        {
-            Pipe closest = Controller.getClosestPipe(*pop.GetBirdPop().front());
-            pop.Think(closest, width, height);
-            for (auto b : pop.GetBirdPop())
-            {
-                Controller.CollideWithBird(*b);
-            }
-        }
-
         window.clear();
-        for (auto b : pop.GetBirdPop())
+        
+        window.draw(a.GetBirdShape());
+        for (auto& b : pop.GetBirdPop())
         {
-            if (pop.GetBirdPop().size() > 0)
-            {
-                b->setFitnes(b->getFitnes() + 1);
-                window.draw(b->GetBirdShape());
-            }
+            window.draw(b->GetBirdShape());
         }
+        
         for (auto& p : Controller.GetPipes())
         {
             window.draw(p->GetPipeTop());

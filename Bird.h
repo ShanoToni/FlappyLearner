@@ -55,7 +55,7 @@ public:
 	inline sf::CircleShape & GetBirdShape() { return BirdShape; }
 
 	//FUNCTIONS
-	void UpdateBird(double DeltaTime);
+	void UpdateBird();
 	void ConstrainBird(float screenHeight);
 	void Think(Pipe &p, float screenW, float screenH);
 	void Jump();

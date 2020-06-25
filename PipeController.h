@@ -21,6 +21,8 @@ private:
 	float timer;
 	float width;
 	float height;
+	float speed;
+	float dt;
 	std::default_random_engine generator;
 	std::uniform_real_distribution<float> distribution;
 
@@ -30,7 +32,7 @@ public:
 	//functions
 	void AddPipe();
 	void RemovePipe();
-	void Update(float DeltaTime);
+	void Update();
 	void CollideWithBird(Bird& b);
 	Pipe getClosestPipe(Bird& bird);
 

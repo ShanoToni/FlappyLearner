@@ -20,10 +20,10 @@ Pipe::Pipe(float w, float gap, float sceenWidth, float screenHeight, float gapMo
 
 }
 
-void Pipe::UpdatePipe(float DeltaTime,float Speed)
+void Pipe::UpdatePipe(float Speed)
 {
-	PipeTop.setPosition(sf::Vector2f(PipeTop.getPosition().x - DeltaTime * Speed, PipeTop.getPosition().y ));
-	PipeBottom.setPosition(sf::Vector2f(PipeBottom.getPosition().x - DeltaTime * Speed, PipeBottom.getPosition().y));
+	PipeTop.setPosition(sf::Vector2f(PipeTop.getPosition().x -  Speed, PipeTop.getPosition().y ));
+	PipeBottom.setPosition(sf::Vector2f(PipeBottom.getPosition().x - Speed, PipeBottom.getPosition().y));
 	
 	if (PipeTop.getPosition().x + PipeTop.getSize().x < 0.0f)
 	{

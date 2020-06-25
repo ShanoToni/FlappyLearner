@@ -10,6 +10,8 @@ PipeController::PipeController(float ScreenX, float ScreenY, float d):
 	delay(d),height(ScreenY),width(ScreenX)
 {
 	timer = delay;
+	speed = 0.5f;
+	dt = 0.05f;
 	AddPipe();
 }
 
@@ -26,9 +28,9 @@ void PipeController::RemovePipe()
 	 PipeList.pop_front();
 }
 
-void PipeController::Update(float DeltaTime)
+void PipeController::Update()
 {
-	timer = timer - DeltaTime;
+	timer = timer - dt * speed * 0.1f;
 	if (timer <= 0.f)
 	{
 		timer = delay;
@@ -38,7 +40,7 @@ void PipeController::Update(float DeltaTime)
 	{
 		for (auto& p : PipeList)
 		{
-			p->UpdatePipe(DeltaTime, 200);
+			p->UpdatePipe(speed);
 		}
 		if (PipeList[0]->GetShouldDelete())
 		{
@@ -69,7 +71,8 @@ void PipeController::CollideWithBird(Bird& b)
 
 				if (pipeTopY >= birdPosY || PipeBottomY <= birdPosY + 50)
 				{
-					//std::cout << "HIT!" << std::endl;
+					std::cout << "HIT!" << std::endl;
+					b.getAlive() = false;
 				}
 			}
 		}
