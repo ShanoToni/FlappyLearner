@@ -9,10 +9,13 @@ const int height = 720;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(width, height), "SFML Flapper");
-
-    Bird a = Bird(sf::Vector2f(200, (height / 2)));
     BirdPopulation pop = BirdPopulation(350);
+    pop.TrainGeneration(10);
+
+    sf::RenderWindow window(sf::VideoMode(width, height), "SFML Flapper");
+    window.setFramerateLimit(60);
+    
+    Bird a = Bird(sf::Vector2f(200, (height / 2)));
 
     PipeController Controller = PipeController(width, height, 2.f);
     
@@ -37,37 +40,48 @@ int main()
                 }
             }
         }
+        
+        if (pop.GetBirdPop().size() == 0)
+        {
+            pop.CreateNewGeneration();
+            pop.ResetPipes();
+        }
+        
 
-        pop.ConstrainBirds(height);
-        pop.UpdateBirds();
         //Update Game
-        a.ConstrainBird(height);
-        a.UpdateBird();
-        Controller.Update();
+        auto closest = Controller.getClosestPipe(*pop.GetBirdPop().front());
+        pop.Think(closest, 1280, 720);
+
+        pop.UpdateBirds();
+        pop.ConstrainBirds(height);
+        
+        //a.ConstrainBird(height);
+        //a.UpdateBird();
+        //Controller.Update();
 
         
         //pop.RemoveDeadBirds();
         
     
-        Pipe closest = Controller.getClosestPipe(a);
-        pop.Think(closest, width, height);
+        //Pipe closest = Controller.getClosestPipe(a);
+        //pop.Think(closest, width, height);
         
-        Controller.CollideWithBird(a);
+        /*Controller.CollideWithBird(a);
         for (auto& b : pop.GetBirdPop())
         {
             Controller.CollideWithBird(*b);
-        }
+        }*/
         
         pop.RemoveDeadBirds();
         window.clear();
         
-        window.draw(a.GetBirdShape());
+        //window.draw(a.GetBirdShape());
         for (auto& b : pop.GetBirdPop())
         {
             window.draw(b->GetBirdShape());
         }
         
-        for (auto& p : Controller.GetPipes())
+        for (auto& p : pop.getController().GetPipes())
         {
             window.draw(p->GetPipeTop());
             window.draw(p->GetPipeBottom());

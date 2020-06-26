@@ -11,7 +11,7 @@ Bird::Bird(sf::Vector2<float> position) : Position(position), Acceleration(sf::V
 	BirdShape = sf::CircleShape(25.f);
 	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
 	Lift = 0;
-	brain = std::unique_ptr<NeuralNetwork>(new NeuralNetwork(5, 8, 1));
+	brain = std::unique_ptr<NeuralNetwork>(new NeuralNetwork(5, 12, 1));
 	canJump = true;
 	std::vector<float> brainDNA = brain->getWeightsAsDNA();
 	DNA.insert(DNA.begin(), brainDNA.begin(), brainDNA.end());
@@ -43,7 +43,7 @@ void Bird::UpdateBird()
 
 	BirdShape.setPosition(Position);
 
-	Acceleration = sf::Vector2f(0.0f, 0.009f);
+	Acceleration = sf::Vector2f(0.0f, 0.2f);
 	Lift = 0.f;
 }
 
@@ -70,11 +70,11 @@ void Bird::ConstrainBird( float screenHeight)
 void Bird::Think(Pipe& p, float screenW, float screenH)
 {
 	std::vector<float> inputs;
-	inputs.push_back(BirdShape.getPosition().y/ screenH);
+	inputs.push_back(BirdShape.getPosition().y);
 	inputs.push_back(Velocity.y);
-	inputs.push_back(p.GetPipeTop().getPosition().x / screenW);
-	inputs.push_back(p.GetPipeTop().getPosition().y + p.GetPipeTop().getSize().y / screenH);
-	inputs.push_back(p.GetPipeBottom().getPosition().y / screenH);
+	inputs.push_back(p.GetPipeTop().getPosition().x );
+	inputs.push_back(p.GetPipeTop().getPosition().y + p.GetPipeTop().getSize().y);
+	inputs.push_back(p.GetPipeBottom().getPosition().y + p.GetPipeBottom().getSize().y);
 
 	std::vector<float> outputs = brain->feedForward(inputs);
 	if (outputs[0] > 0.5f)
@@ -87,7 +87,7 @@ void Bird::Jump()
 {
 	if (canJump)
 	{
-		Lift = -2.3f;
+		Lift = -9.f;
 	}
 }
 

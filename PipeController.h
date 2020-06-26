@@ -11,12 +11,13 @@
 class PipeController
 {
 public:
+	PipeController();
 	PipeController(float ScreenX, float ScreenY);
 	PipeController(float ScreenX, float ScreenY, float d);
 
 	//vars
 private:
-	std::deque<std::unique_ptr<Pipe>> PipeList;
+	std::deque<std::shared_ptr<Pipe>> PipeList;
 	float delay;
 	float timer;
 	float width;
@@ -28,8 +29,9 @@ private:
 
 public:
 	//get&set
-	inline std::deque<std::unique_ptr<Pipe>>& GetPipes() { return PipeList; }
+	inline std::deque<std::shared_ptr<Pipe>>& GetPipes() { return PipeList; }
 	//functions
+	void resetTimer() { timer = delay; }
 	void AddPipe();
 	void RemovePipe();
 	void Update();

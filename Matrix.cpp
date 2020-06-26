@@ -19,7 +19,7 @@ Matrix::Matrix(int r, int c):Rows(r),Cols(c)
 		Data.push_back(temp);
 	}
 
-	distribution = std::uniform_real_distribution<float>(-1.0f, 1.0f);
+	distribution = std::uniform_real_distribution<float>(-3.0f, 3.0f);
 }
 
 void Matrix::set(std::vector<float> vec)

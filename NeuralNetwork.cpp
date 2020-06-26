@@ -48,9 +48,9 @@ void NeuralNetwork::setWeightsFromDNA(std::vector<float> DNA)
 		InputToHiddenVec[i] = DNA[i];
 		position = position + 1;
 	}
-	for (int i = 0; i < InputToHiddenVec.size(); i++)
+	for (int i = 0; i < HiddenToOutputVec.size(); i++)
 	{
-		InputToHiddenVec[i] = DNA[position];
+		HiddenToOutputVec[i] = DNA[position];
 		position = position + 1;
 	}
 	for (int i = 0; i < HiddenBiasVec.size(); i++)

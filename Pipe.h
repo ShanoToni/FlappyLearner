@@ -19,8 +19,8 @@ private:
 
 public:
 	//get and sets
-	inline sf::RectangleShape GetPipeTop() { return PipeTop; }
-	inline sf::RectangleShape GetPipeBottom() { return PipeBottom; }
+	inline sf::RectangleShape& GetPipeTop() { return PipeTop; }
+	inline sf::RectangleShape& GetPipeBottom() { return PipeBottom; }
 	inline float GetWidth() { return Width; }
 
 	inline void SetPipeTop(sf::RectangleShape pipe) { PipeTop = pipe; }
