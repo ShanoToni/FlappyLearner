@@ -10,7 +10,7 @@ Bird::Bird() :Acceleration(sf::Vector2f(0.f, 0.f)), Velocity(sf::Vector2f(0.f, 0
 
 	float RandomHeight = distribution(generator);
 
-	Position = sf::Vector2f(200.f, RandomHeight);
+	Position = sf::Vector2f(200.f, 702/2);
 	BirdShape = sf::CircleShape(25.f);
 	BirdShape.setFillColor(sf::Color(255, 255, 255, 50));
 	Lift = 0;

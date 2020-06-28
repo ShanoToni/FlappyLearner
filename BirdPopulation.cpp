@@ -39,6 +39,7 @@ void BirdPopulation::Mutate(std::vector<float>& DNA)
 		{
 			float mutationRate = getRandf(-0.1f, 0.1f);
 			DNA[i] = DNA[i] + mutationRate;
+
 		}
 	}
 }
@@ -189,13 +190,13 @@ void BirdPopulation::Think(Pipe& p, float screenW, float screenH)
 		{
 			std::vector<float> inputs;
 			inputs.push_back(b->GetBirdShape().getPosition().y / screenH);
-			inputs.push_back(b->GetVelocity().y / 20);
-			inputs.push_back(p.GetPipeTop().getPosition().x / screenW);
-			inputs.push_back((p.GetPipeTop().getPosition().y + p.GetPipeTop().getSize().y) / screenH);
+			inputs.push_back(b->GetVelocity().y / 10);
+			inputs.push_back((p.GetPipeTop().getSize().y) / screenH);
 			inputs.push_back(p.GetPipeBottom().getPosition().y / screenH);
+			inputs.push_back(p.GetPipeTop().getPosition().x / screenW);
 
 			std::vector<float> outputs = b->getBrain()->feedForward(inputs);
-			if (outputs[0] < outputs[1])
+			if (outputs[0] > outputs[1])
 			{
 				b->Jump();
 			}
@@ -221,7 +222,7 @@ void BirdPopulation::CreateNewGeneration()
 		}
 
 		//create children
-		float numReproductions = 500;
+		int numReproductions = SavedBirdPop.size();
 		std::vector<std::shared_ptr<Bird>> newBirds;
 
 		for (int i = 0; i < numReproductions; i++)

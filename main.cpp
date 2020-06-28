@@ -12,7 +12,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML Flapper");
     window.setFramerateLimit(60);
 
-    BirdPopulation pop = BirdPopulation(500);
+    BirdPopulation pop = BirdPopulation(350);
     //pop.TrainGeneration(50);
 
     while (window.isOpen())
@@ -61,6 +61,7 @@ int main()
         {
             window.draw(p->GetPipeBottom());
             window.draw(p->GetPipeTop());
+
         }
 
         window.display();
