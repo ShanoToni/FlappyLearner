@@ -18,7 +18,7 @@ private:
 
 public:
 	//get and sets
-	std::vector<std::vector<float>> getAsVec() { return Data; }
+	inline std::vector<std::vector<float>> getAsVec() { return Data; }
 	//inline void set(std::vector<float> vec) { Data = vec; }
 	inline void set(int row, int col, float value) { Data[row][col] = value; }
 	void set(std::vector<float> vec);
@@ -34,13 +34,11 @@ public:
 	template<typename L>
 	void map(L lambda);
 
-	Matrix operator -(Matrix other);
-	Matrix operator +(Matrix other);
-	Matrix operator *(Matrix other);
+	void Add(float other);
+	void Add(Matrix& other);
 
-	Matrix operator -(float other);
-	Matrix operator +(float other);
-	Matrix operator *(float other);
+	void Multiply(float other);
+	void Multiply(Matrix& other);
 
 	~Matrix();
 };

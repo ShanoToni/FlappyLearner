@@ -1,10 +1,6 @@
 #include "PipeController.h"
 #include <iostream>
 
-PipeController::PipeController():PipeController(0,0)
-{
-}
-
 PipeController::PipeController(float ScreenX, float ScreenY):PipeController(ScreenX,ScreenY,100)
 {
 	
@@ -14,7 +10,7 @@ PipeController::PipeController(float ScreenX, float ScreenY, float d):
 	delay(d),height(ScreenY),width(ScreenX)
 {
 	timer = delay;
-	speed = 4.f;
+	speed = 6.f;
 	dt = 0.03f;
 	AddPipe();
 }
@@ -45,6 +41,7 @@ void PipeController::Update()
 		for (auto& p : PipeList)
 		{
 			p->UpdatePipe(speed);
+			//p->GetPipeTop().setFillColor(sf::Color(255, 255, 255, 150));
 		}
 		if (PipeList[0]->GetShouldDelete())
 		{
@@ -57,30 +54,37 @@ void PipeController::CollideWithBird(Bird& b)
 {
 	if (PipeList.size() > 0)
 	{
-		Pipe closest = getClosestPipe(b);
-	
-		//CollideWithBird(bird);
-		float pipeTopY = closest.GetPipeTop().getPosition().y + closest.GetPipeTop().getSize().y;
-		float pipeTopX = closest.GetPipeTop().getPosition().x;
-		float pipeTopXMax = closest.GetPipeTop().getPosition().x + closest.GetPipeTop().getSize().x;
-
-		float PipeBottomY = closest.GetPipeBottom().getPosition().y;
-
-		float birdPosX = b.GetBirdShape().getPosition().x;
-		float birdPosY = b.GetBirdShape().getPosition().y;
-
-		//if the bird and pipe have a similar X
-		if (pipeTopX <= birdPosX + 50 && pipeTopXMax >= birdPosX)
+		for (auto& p : PipeList)
 		{
+			//CollideWithBird(bird);
+			float pipeTopY = p->GetPipeTop().getPosition().y + p->GetPipeTop().getSize().y;
+			float pipeTopX = p->GetPipeTop().getPosition().x;
+			float pipeTopXMax = p->GetPipeTop().getPosition().x + p->GetPipeTop().getSize().x;
 
-			if (pipeTopY >= birdPosY || PipeBottomY <= birdPosY + 50)
+			float PipeBottomY = p->GetPipeBottom().getPosition().y;
+
+			float birdPosX = b.GetBirdShape().getPosition().x;
+			float birdPosY = b.GetBirdShape().getPosition().y;
+
+			//if the bird and pipe have a similar X
+			if (pipeTopX <= birdPosX + 50 && pipeTopXMax >= birdPosX)
 			{
-				std::cout << "HIT!" << std::endl;
-				b.getAlive() = false;
+
+				if (pipeTopY >= birdPosY || PipeBottomY <= birdPosY + 50)
+				{
+					std::cout << "HIT!" << std::endl;
+					b.getAlive() = false;
+				}
 			}
 		}
-		
 	}
+}
+
+void PipeController::ResetPipes()
+{
+	PipeList.clear();
+	timer = delay;
+	AddPipe();
 }
 
 Pipe PipeController::getClosestPipe(Bird& bird)
@@ -92,7 +96,7 @@ Pipe PipeController::getClosestPipe(Bird& bird)
 		p->GetPipeBottom().setFillColor(sf::Color(255, 255, 255, 150));
 		p->GetPipeTop().setFillColor(sf::Color(255, 255, 255, 150));
 		float distance = p->GetPipeTop().getPosition().x + (p->GetPipeTop().getSize().x / 2) - (bird.GetBirdShape().getPosition().x + 25.f);
-		
+
 		if (closestDistance < 0)
 		{
 			closestDistance = 1000.f;
@@ -107,7 +111,6 @@ Pipe PipeController::getClosestPipe(Bird& bird)
 	closest->GetPipeTop().setFillColor(sf::Color(255, 0, 0, 250));
 
 	return *closest;
-
 }
 
 PipeController::~PipeController()

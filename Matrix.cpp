@@ -19,7 +19,7 @@ Matrix::Matrix(int r, int c):Rows(r),Cols(c)
 		Data.push_back(temp);
 	}
 
-	distribution = std::uniform_real_distribution<float>(-3.0f, 3.0f);
+	distribution = std::uniform_real_distribution<float>(-1.0f, 1.0f);
 }
 
 void Matrix::set(std::vector<float> vec)
@@ -85,33 +85,40 @@ Matrix Matrix::transpose(Matrix mat)
 	return transposedMat;
 }
 
-Matrix Matrix::operator-(Matrix other)
+void Matrix::Add(float other)
 {
-	Matrix result(Rows, Cols);
 	for (int i = 0; i < Rows; i++)
 	{
 		for (int j = 0; j < Cols; j++)
 		{
-			result.set(i, j, getAsVec()[i][j] - other.getAsVec()[i][j]);
+			set(i, j, getAsVec()[i][j] - other);
 		}
 	}
-	return result;
 }
 
-Matrix Matrix::operator+(Matrix other)
+void Matrix::Add(Matrix& other)
 {
-	Matrix result(Rows, Cols);
 	for (int i = 0; i < Rows; i++)
 	{
 		for (int j = 0; j < Cols; j++)
 		{
-			result.set(i, j, getAsVec()[i][j] + other.getAsVec()[i][j]);
+			set(i, j, getAsVec()[i][j] + other.getAsVec()[i][j]);
 		}
 	}
-	return result;
 }
 
-Matrix Matrix::operator*(Matrix other)
+void Matrix::Multiply(float other)
+{
+	for (int i = 0; i < Rows; i++)
+	{
+		for (int j = 0; j < Cols; j++)
+		{
+			set(i, j, getAsVec()[i][j] * other);
+		}
+	}
+}
+
+void Matrix::Multiply(Matrix& other)
 {
 	if (getCols() != other.getRows())
 	{
@@ -124,7 +131,7 @@ Matrix Matrix::operator*(Matrix other)
 		for (int j = 0; j < result.getCols(); j++)
 		{
 			//set value of result = dot product of rows and cols
-			float sum{0};
+			float sum{ 0 };
 			for (int k = 0; k < getCols(); k++)
 			{
 				sum = sum + getAsVec()[i][k] * other.getAsVec()[k][j];
@@ -134,46 +141,9 @@ Matrix Matrix::operator*(Matrix other)
 		}
 	}
 
-	return result;
-}
-
-Matrix Matrix::operator-(float other)
-{
-	Matrix result(Rows, Cols);
-	for (int i = 0; i < Rows; i++)
-	{
-		for (int j = 0; j < Cols; j++)
-		{
-			result.set(i, j, getAsVec()[i][j] - other);
-		}
-	}
-	return result;
-}
-
-Matrix Matrix::operator+(float other)
-{
-	Matrix result(Rows, Cols);
-	for (int i = 0; i < Rows; i++)
-	{
-		for (int j = 0; j < Cols; j++)
-		{
-			result.set(i, j, getAsVec()[i][j] - other);
-		}
-	}
-	return result;
-}
-
-Matrix Matrix::operator*(float other)
-{
-	Matrix result(Rows, Cols);
-	for (int i = 0; i < Rows; i++)
-	{
-		for (int j = 0; j < Cols; j++)
-		{
-			result.set(i, j, getAsVec()[i][j] * other);
-		}
-	}
-	return result;
+	 Data = result.Data;
+	 Rows = result.getRows();
+	 Cols = result.getCols();
 }
 
 Matrix::~Matrix()

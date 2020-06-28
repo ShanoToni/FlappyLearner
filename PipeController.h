@@ -11,7 +11,6 @@
 class PipeController
 {
 public:
-	PipeController();
 	PipeController(float ScreenX, float ScreenY);
 	PipeController(float ScreenX, float ScreenY, float d);
 
@@ -31,11 +30,11 @@ public:
 	//get&set
 	inline std::deque<std::shared_ptr<Pipe>>& GetPipes() { return PipeList; }
 	//functions
-	void resetTimer() { timer = delay; }
 	void AddPipe();
 	void RemovePipe();
 	void Update();
 	void CollideWithBird(Bird& b);
+	void ResetPipes();
 	Pipe getClosestPipe(Bird& bird);
 
 	~PipeController();

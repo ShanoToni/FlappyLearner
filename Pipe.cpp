@@ -12,7 +12,7 @@ Pipe::Pipe(float w, float gap, float sceenWidth, float screenHeight, float gapMo
 	PipeTop.setFillColor(sf::Color(255, 255, 255, 150));
 	PipeTop.setPosition(sf::Vector2f(sceenWidth + (Width* 1), 0));
 
-	PipeBottom.setSize(sf::Vector2f(Width, (screenHeight -PipeTop.getSize().y) - Gap ));
+	PipeBottom.setSize(sf::Vector2f(Width, (screenHeight - PipeTop.getSize().y) - Gap ));
 	PipeBottom.setFillColor(sf::Color(255, 255, 255, 150));
 	PipeBottom.setPosition(sf::Vector2f(sceenWidth + (Width * 1), screenHeight-PipeBottom.getSize().y));
 	

@@ -71,20 +71,24 @@ void NeuralNetwork::setWeightsFromDNA(std::vector<float> DNA)
 }
 std::vector<float> NeuralNetwork::feedForward(std::vector<float> inputs)
 {
-	Matrix hidden = WInputToHidden * Matrix::fromVector(inputs);
-	hidden = hidden + HiddenBias;
+	Matrix hidden = WInputToHidden;
+	auto inputMat = Matrix::fromVector(inputs);
+	hidden.Multiply(inputMat);
+
+	hidden.Add(HiddenBias);
 
 	auto sigmoid = [](float x) {return (1.f / (1.f + exp(-x))); };
 	//activation function
 	hidden.map(sigmoid);
 	
-	Matrix output = WHiddenToOutput * hidden;
-	output = output + OutputBias;
+	Matrix output = WHiddenToOutput;
+	output.Multiply(hidden);
+	output.Add(OutputBias);
 	output.map(sigmoid);
 
-	
-	float temp = output.toVector()[0];
+	//float temp = output.toVector()[0];
 	//std::cout << temp << std::endl;
+
 	return output.toVector();
 }
 

@@ -11,9 +11,7 @@ class Bird
 public:
 	Bird();
 	Bird(sf::Vector2<float> position);
-	Bird(Bird& other);
-	Bird(Bird&& other);
-
+	
 
 	//VARIABLES
 protected:
@@ -22,7 +20,7 @@ protected:
 	sf::Vector2f Position;
 	float Lift;
 	sf::CircleShape BirdShape;
-	std::unique_ptr<NeuralNetwork> brain;
+	std::shared_ptr<NeuralNetwork> brain;
 	bool canJump;
 	bool Alive;
 
@@ -34,13 +32,15 @@ protected:
 public:
 	inline float& getLift() { return Lift; }
 
-	inline std::unique_ptr<NeuralNetwork>& getBrain() { return brain; }
+	inline std::shared_ptr<NeuralNetwork>& getBrain() { return brain; }
 
 	inline bool & getAlive() { return Alive; }
 
 	inline float getFitnes() { return fitness; }
 	void setFitnes(float addition) { fitness = addition; }
+
 	inline float getFitnesNormalized() { return fitnessNormalized; }
+	inline void setFitnesNormalized(float val) { fitnessNormalized = val; }
 
 	inline sf::Vector2f & GetVelocity() { return Velocity; }
 	inline void SetVelocity(sf::Vector2f velocity) { Velocity = velocity; }
@@ -55,6 +55,7 @@ public:
 	inline sf::CircleShape & GetBirdShape() { return BirdShape; }
 
 	//FUNCTIONS
+	void Copy(Bird& other);
 	void UpdateBird();
 	void ConstrainBird(float screenHeight);
 	void Think(Pipe &p, float screenW, float screenH);
